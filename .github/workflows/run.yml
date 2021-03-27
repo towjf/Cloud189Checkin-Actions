@@ -26,49 +26,109 @@ jobs:
         pip3 install -r requirements.txt
         
     - name: Checkin
+      env:
+        SCKEY: ${{ secrets.SCKEY }}
+        SCTKEY: ${{ secrets.SCTKEY }}
+        Skey: ${{ secrets.Skey }}
+        Smode: ${{ secrets.Smode }}
+        pushplus_token: ${{ secrets.pushplus_token }}
+        pushplus_topic: ${{ secrets.pushplus_topic }}
+        USER1: ${{ secrets.USER1 }}
+        PWD1: ${{ secrets.PWD1 }}
+        USER2: ${{ secrets.USER2 }}
+        PWD2: ${{ secrets.PWD2 }}
+        USER3: ${{ secrets.USER3 }}
+        PWD3: ${{ secrets.PWD3 }}
+        USER4: ${{ secrets.USER4 }}
+        PWD4: ${{ secrets.PWD4 }}
+        USER5: ${{ secrets.USER5 }}
+        PWD5: ${{ secrets.PWD5 }}
+        USER6: ${{ secrets.USER6 }}
+        PWD6: ${{ secrets.PWD6 }}
+        USER7: ${{ secrets.USER7 }}
+        PWD7: ${{ secrets.PWD7 }}
+        USER8: ${{ secrets.USER8 }}
+        PWD8: ${{ secrets.PWD8 }}
+        USER9: ${{ secrets.USER9 }}
+        PWD9: ${{ secrets.PWD9 }}
+        USER10: ${{ secrets.USER10 }}
+        PWD10: ${{ secrets.PWD10 }}
+        USER11: ${{ secrets.USER11 }}
+        PWD11: ${{ secrets.PWD11 }}
+        USER12: ${{ secrets.USER12 }}
+        PWD12: ${{ secrets.PWD12 }}
+        USER13: ${{ secrets.USER13 }}
+        PWD13: ${{ secrets.PWD13 }}
+        USER14: ${{ secrets.USER14 }}
+        PWD14: ${{ secrets.PWD14 }}
+        USER15: ${{ secrets.USER15 }}
+        PWD15: ${{ secrets.PWD15 }}
+        USER16: ${{ secrets.USER16 }}
+        PWD16: ${{ secrets.PWD16 }}
+        USER17: ${{ secrets.USER17 }}
+        PWD17: ${{ secrets.PWD17 }}
+        USER18: ${{ secrets.USER18 }}
+        PWD18: ${{ secrets.PWD18 }}
+        USER19: ${{ secrets.USER19 }}
+        PWD19: ${{ secrets.PWD19 }}
+        USER20: ${{ secrets.USER20 }}
+        PWD20: ${{ secrets.PWD20 }}
+        sjdjs: ${{ secrets.sjdjs }}
+        random_time: ${{ secrets.random_time }}
+        sjdjs2: ${{ secrets.sjdjs2 }}
+        random_time2: ${{ secrets.random_time2 }}
       run: |
-        sed -i 's|SCKEY = ""|SCKEY = "${{ secrets.SCKEY }}"|' C189Checkin.py
+        sleep_random_time(){
+          [[ "$2" == "m" ]] && d="分钟"
+          [[ "$2" == "s" ]] && d="秒钟"
+          if [[ "$1" ]]; then
+            r_time=$1
+            random_time=$(($RANDOM % $r_time)) # 随机延迟n分钟/秒钟(m/s)
+            echo "等待 ${random_time}$d 后继续"
+            for((i=1;i<=${random_time};i++));
+            do
+              [[ "$(echo $r_time|grep m)" ]] && echo "倒计时:剩余 $[${random_time}-$i] $d"
+              sleep $random_time$2
+            done
+          fi
+        }
 
-        user="${{ secrets.USER }}"
-        pwd="${{ secrets.PWD }}"
-        user_list=()
-        pwd_list=()
+        run_checkin(){
+          USER=$1
+          PWD=$2
+          username="$USER" password="$PWD" python3 C189Checkin.py
+          [[ "$sjdjs2" ]] || [[ "$random_time2" ]] && sleep_random_time "$sjdjs2" s && sleep_random_time "$random_time2" s
+        }
 
-        for u in ${user[*]}
-        do
-        user_list[${#user_list[*]}]=${u}
-        done
+        fgf(){
+          echo -e "------------------------------\n第 $1 个账号开始执行任务"
+        }
 
-        for p in ${pwd[*]}
-        do
-        pwd_list[${#pwd_list[*]}]=${p}
-        done
-        
-        user_num=${#user_list[*]}
-        pwd_num=${#pwd_list[*]}
-
-        if [ $user_num != $pwd_num ];then
-        echo "账号和密码个数不对应"
-        exit 1
+        [[ -z "$sjdjs" ]] && [[ -z "$random_time" ]] && sjdjs="45"
+        [[ -z "$sjdjs2" ]] && [[ -z "$random_time2" ]] && sjdjs2="120"
+        if [[ "$USER1" ]] && [[ "$PWD1" ]]; then
+          [[ "$sjdjs" ]] || [[ "$random_time" ]] && sleep_random_time "$sjdjs" m && sleep_random_time "$random_time" m
         else
-        echo "共有 $user_num 个账号，即将开始签到"
+          echo "Secret:USER1和PWD1没有定义，退出。"
+          exit 0
         fi
-
-        random_time=$(($RANDOM % 45))
-        echo "等待 ${random_time} 分钟后开始签到"
-        for((i=1;i<=${random_time};i++));  
-        do
-        echo "倒计时:剩余 $[${random_time}-$i] 分钟"
-        sleep 1m
-        done
-
-        for ((i=0;i<$user_num;i++))
-        do
-        echo "----------"
-        echo "签到账号$(($i+1))"
-        python3 C189Checkin.py <<EOF
-        ${user_list[$i]}
-        ${pwd_list[$i]}
-        EOF
-        echo "----------"
-        done
+        [[ "$USER1" ]] && [[ "$PWD1" ]] && fgf 1 && run_checkin $USER1 $PWD1
+        [[ "$USER2" ]] && [[ "$PWD2" ]] && fgf 2 && run_checkin $USER2 $PWD2
+        [[ "$USER3" ]] && [[ "$PWD3" ]] && fgf 3 && run_checkin $USER3 $PWD3
+        [[ "$USER4" ]] && [[ "$PWD4" ]] && fgf 4 && run_checkin $USER4 $PWD4
+        [[ "$USER5" ]] && [[ "$PWD5" ]] && fgf 5 && run_checkin $USER5 $PWD5
+        [[ "$USER6" ]] && [[ "$PWD6" ]] && fgf 6 && run_checkin $USER6 $PWD6
+        [[ "$USER7" ]] && [[ "$PWD7" ]] && fgf 7 && run_checkin $USER7 $PWD7
+        [[ "$USER8" ]] && [[ "$PWD8" ]] && fgf 8 && run_checkin $USER8 $PWD8
+        [[ "$USER9" ]] && [[ "$PWD9" ]] && fgf 9 && run_checkin $USER9 $PWD9
+        [[ "$USER10" ]] && [[ "$PWD10" ]] && fgf 10 && run_checkin $USER10 $PWD10
+        [[ "$USER11" ]] && [[ "$PWD11" ]] && fgf 11 && run_checkin $USER11 $PWD11
+        [[ "$USER12" ]] && [[ "$PWD12" ]] && fgf 12 && run_checkin $USER12 $PWD12
+        [[ "$USER13" ]] && [[ "$PWD13" ]] && fgf 13 && run_checkin $USER13 $PWD13
+        [[ "$USER14" ]] && [[ "$PWD14" ]] && fgf 14 && run_checkin $USER14 $PWD14
+        [[ "$USER15" ]] && [[ "$PWD15" ]] && fgf 15 && run_checkin $USER15 $PWD15
+        [[ "$USER16" ]] && [[ "$PWD16" ]] && fgf 16 && run_checkin $USER16 $PWD16
+        [[ "$USER17" ]] && [[ "$PWD17" ]] && fgf 17 && run_checkin $USER17 $PWD17
+        [[ "$USER18" ]] && [[ "$PWD18" ]] && fgf 18 && run_checkin $USER18 $PWD18
+        [[ "$USER19" ]] && [[ "$PWD19" ]] && fgf 19 && run_checkin $USER19 $PWD19
+        [[ "$USER20" ]] && [[ "$PWD20" ]] && fgf 20 && run_checkin $USER20 $PWD20

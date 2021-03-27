@@ -14,27 +14,32 @@
 # Github Actions说明
 ## 一、Fork此仓库
 ![](http://tu.yaohuo.me/imgs/2020/06/f059fe73afb4ef5f.png)
-## 二、设置账号密码
-添加名为**USER**、**PWD**、**SCKEY**(可选)的变量  
-值分别为**账号**、**密码**、**Server酱的KEY**  
-多账号时账号密码一行一个一一对应  
+## 二、设置账号、密码和推送服务等(可选)
+### 账号密码
+添加名为**USER1**、**PWD1**的变量  
+值分别为**账号**、**密码**  
+多账号时依次设置**USER2**、**PWD2**;**USER3**、**PWD3**(最多20个账号)  
 示例：  
-**USER**
-```
-123456
-24678
-```
-**PWD**
-```
-cxkjntm
-jntmcxk
-```
-**SCKEY**  
-KEY获取方法详见官网：https://sc.ftqq.com
+**USER1**: ```123456```  
+**PWD1**: ```cxkjntm```  
+**USER2**: ```24678```  
+**PWD2**: ```jntmcxk```  
+注: 原账号密码是只在一个secret配置。改为每个账号独立secret配置，作用在于某一个账号密码有变动时，可以只更改变动过密码的账号，而无需全部重新配置。  
+### 推送服务支持以下这些  
+**SCKEY** http://sc.ftqq.com/  
+**SCTKEY** http://sct.ftqq.com/  
+**Skey** https://cp.xuthus.cc/  
+**Smode** send, group, psend, pgroup, wx, tg, ww, ding(no send email)  
+**pushplus_token** http://pushplus.hxtrip.com/  
+**pushplus_topic** pushplus一对多推送需要的"群组编码"，一对一推送不用管  
+### 随机延迟
+默认值：  
+随机延迟1-45分钟后开始执行脚本，每个账号之间随机延迟1-120秒继续执行脚本。  
+自定义：  
+**sjdjs**或**random_time**，填写数字，表示随机延迟1-n分钟后开始执行脚本。  
+**sjdjs2**或**random_time2**，填写数字，表示每个账号之间随机延迟1-n秒继续执行脚本。  
 
-```
-xxxxxxxx
-```
+以下图片里的值已经过时，请按照上诉描述填写  
 ![](http://tu.yaohuo.me/imgs/2020/06/748bf9c0ca6143cd.png)
 ![](http://tu.yaohuo.me/imgs/2020/06/af2013b1ef5d8430.png)
 ![](http://tu.yaohuo.me/imgs/2020/06/09c22adcec7b5d81.png)
